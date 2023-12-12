@@ -54,6 +54,6 @@ steps:
         zipAfterPublish: true
 
 # Publish the .zip file to Azure Pipelines
--   task: PublishBuildArtifact@1
+-   task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: drop'
     condition: succeeded()
