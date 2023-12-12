@@ -10,11 +10,11 @@ parameters:
         projects: '**/*.csproj'
 
 # Publish or package the app's build results (including its dependencies) into a folder
-- task: DotNetCoreCLI@2
-  displayName: 'Publish the project - ${{ parameters.buildConfiguration }}'
-  inputs:
-    command: 'publish'
-    projects: '**/*.csproj'
-    publishWebProjects: false
-    arguments: '--no-build --configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)/Debug'
-    zipAfterPublish: true
+-   task: DotNetCoreCLI@2
+    displayName: 'Publish the project - ${{ parameters.buildConfiguration }}'
+    inputs:
+      command: 'publish'
+      projects: '**/*.csproj'
+      publishWebProjects: false
+      arguments: '--no-build --configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)/Debug'
+      zipAfterPublish: true
