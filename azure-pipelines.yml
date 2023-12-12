@@ -2,19 +2,17 @@ trigger:
 - '*'
 
 pool:
-  name: 'Azure Pipelines' # Replace Default with the name of your agent pool if you used a different pool
+  name: 'Default' #replace if needed with name of your agent pool
 
 variables:
   buildConfiguration: 'Release'
   wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
   dotnetSdkVersion: '6.x'
 
-# Build Job
 steps:
 - task: UseDotNet@2
   displayName: 'Use .NET SDK $(dotnetSdkVersion)'
   inputs:
-    packageType: sdk
     version: '$(dotnetSdkVersion)'
 
 - task: Npm@1
@@ -33,9 +31,9 @@ steps:
   workingDirectory: $(wwwrootDir)
 
 - task: DotNetCoreCLI@2
-  displayName: 'Restore Project Dependencies'
+  displayName: 'Restore project dependencies'
   inputs:
-    commamd: 'restore'
+    command: 'restore'
     projects: '**/*.csproj'
 
 # # Build the RELEASE configuration
@@ -74,16 +72,14 @@ steps:
 #     arguments: '--no-build --configuration Release --output $(Build.ArtifactStagingDirectory)/Debug'
 #     zipAfterPublish: true
 
-## ---- Templates to replace all two Tasks above ---- ##
-- template: /templates/build.yml
+- template: templates/build.yml
   parameters:
     buildConfiguration: 'Debug'
 
-- template: /templates/build.yml
+- template: templates/build.yml
   parameters:
     buildConfiguration: 'Release'
 
-# Publish the .zip file to Azure Pipelines
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
   condition: succeeded()
