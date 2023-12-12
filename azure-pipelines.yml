@@ -7,6 +7,7 @@ pool:
 variables:
     buildConfiguration: 'Release'
 
+# Build Job
 steps:
 -   task: UseDotNet@2
     displayName: 'Use .NET SDK 6.x'
@@ -41,3 +42,18 @@ steps:
         command: 'build'
         arguments: '--no-restore --configuration Release'
         projects: '**/*.csproj'
+
+# Publish or package the app's build results (including its dependencies) into a folder
+-   task: DotNetCoreCLI@2
+    displayName: 'Publish the project - Release'
+    inputs:
+        command: 'publish'
+        projects: '**/*.csproj'
+        publishWebProjects: false
+        arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/Release'
+        zipAfterPublish: true
+
+# Publish the .zip file to Azure Pipelines
+-   task: PublishBuildArtifact@1
+    displayName: 'Publish Artifact: drop'
+    condition: succeeded()
