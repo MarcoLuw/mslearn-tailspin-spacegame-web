@@ -11,9 +11,13 @@ variables:
 
 jobs:
 - job: Test1
+  pool:
+    vmImage: 'window-latest'
   steps:
     - bash: echo "A"
 - job: Test2
+  pool:
+    vmImage: 'ubuntu-latest'
   steps:
     - bash: echo "B"
 - job: Test3
